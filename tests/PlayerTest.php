@@ -6,7 +6,7 @@ namespace Choccybiccy\Werewolf;
  * Class PlayerTest
  * @package Choccybiccy\Werewolf
  */
-class PlayerTest extends \PHPUnit_Framework_TestCase
+class PlayerTest extends TestCase
 {
 
     /**
@@ -60,21 +60,5 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
         $this->setExpectedException('Choccybiccy\Werewolf\Exception\PlayerLivingException');
         $player->revive();
-    }
-
-    /**
-     * @param null $methods
-     * @param \null $connection
-     * @param null $type
-     * @param null $nickname
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMockPlayer($methods = null, $connection = null, $type = null, $nickname = null)
-    {
-        return $this->getMock('Choccybiccy\Werewolf\Player', $methods, [
-            $connection ?: $this->getMock('Ratchet\ConnectionInterface'),
-            $type ?: Player::TYPE_WEREWOLF,
-            $nickname ?: "Villager 1",
-        ]);
     }
 }

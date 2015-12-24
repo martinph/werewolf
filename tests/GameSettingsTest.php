@@ -6,7 +6,7 @@ namespace Choccybiccy\Werewolf;
  * Class GameSettingsTest
  * @package Choccybiccy\Werewolf
  */
-class GameSettingsTest extends \PHPUnit_Framework_TestCase
+class GameSettingsTest extends TestCase
 {
 
     /**

@@ -8,4 +8,11 @@ namespace Choccybiccy\Werewolf\Command;
  */
 class ChatCommand extends AbstractCommand
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run()
+    {
+    }
 }

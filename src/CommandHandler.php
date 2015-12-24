@@ -2,9 +2,9 @@
 
 namespace Choccybiccy\Werewolf;
 
+use Choccybiccy\Werewolf\Collection\PlayerCollection;
 use Choccybiccy\Werewolf\Exception\MalformedDataException;
 use Choccybiccy\Werewolf\Exception\UnknownCommandException;
-use Ratchet\ConnectionInterface;
 
 /**
  * Class CommandHandler
@@ -31,12 +31,13 @@ class CommandHandler
     ];
 
     /**
+     * Handle incoming data and convert to command
      * @param array $data
-     * @param ConnectionInterface $connection
+     * @param Player $player
      * @throws MalformedDataException
      * @throws UnknownCommandException
      */
-    public function handle(array $data, ConnectionInterface $connection)
+    public function handle(array $data, Player $player, PlayerCollection $collection)
     {
         if (!array_key_exists(self::KEY_COMMAND, $data)) {
             throw new MalformedDataException("Data is missing the " . self::KEY_COMMAND . " attribute");
@@ -48,7 +49,16 @@ class CommandHandler
             throw new UnknownCommandException("The command '$command' is not recognised'");
         }
 
-        $command = new $this->commands[$command]($data, $connection);
+        $command = new $this->commands[$command]($data, $player, $collection);
         return $command;
+    }
+
+    /**
+     * Get available commands
+     * @return array
+     */
+    public function getCommands()
+    {
+        return $this->commands;
     }
 }

@@ -139,6 +139,19 @@ class PlayerCollection extends \SplObjectStorage
     }
 
     /**
+     * @param string $type
+     * @return Player[]
+     */
+    public function getPlayersByType($type)
+    {
+        return array_filter($this->players, function (Player $player) use ($type) {
+            if ($player->getType() == $type) {
+                return $player;
+            }
+        });
+    }
+
+    /**
      * @param ConnectionInterface $connection
      */
     public function removePlayerByConnection(ConnectionInterface $connection)

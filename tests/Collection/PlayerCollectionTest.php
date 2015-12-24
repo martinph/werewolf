@@ -3,12 +3,13 @@
 namespace Choccybiccy\Werewolf\Collection;
 
 use Choccybiccy\Werewolf\Player;
+use Choccybiccy\Werewolf\TestCase;
 
 /**
  * Class PlayerCollectionTest
  * @package Choccybiccy\Werewolf\Collection
  */
-class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
+class PlayerCollectionTest extends TestCase
 {
 
     /**
@@ -16,7 +17,7 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakePlayers()
     {
-        $collection = $this->getMockCollection(null, 6, $this->getMockGameSettings([
+        $collection = $this->getMockPlayerCollection(null, 6, $this->getMockGameSettings([
             "villager_werewolf_ratio" => 0.3,
             "doctors_count" => 1,
             "seers_count" => 1,
@@ -35,7 +36,7 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
     public function testRemovePlayerByConnection()
     {
         /** @var PlayerCollection $collection */
-        $collection = $this->getMockCollection(null, 1);
+        $collection = $this->getMockPlayerCollection(null, 1);
         $collection->makePlayers();
         $collection->rewind();
 
@@ -53,7 +54,7 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDetachCallsRemovePlayerByConnection()
     {
-        $collection = $this->getMockCollection(["removePlayerByConnection"], 1);
+        $collection = $this->getMockPlayerCollection(["removePlayerByConnection"], 1);
         $collection->rewind();
         $connection = $collection->current();
         $collection->expects($this->once())
@@ -67,7 +68,7 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPlayers()
     {
-        $collection = $this->getMockCollection(null, 1, $this->getMockGameSettings([
+        $collection = $this->getMockPlayerCollection(null, 1, $this->getMockGameSettings([
             "villager_werewolf_ratio" => 1,
         ]));
         $collection->makePlayers();
@@ -80,7 +81,7 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPlayer()
     {
-        $collection = $this->getMockCollection(null, 1, $this->getMockGameSettings([
+        $collection = $this->getMockPlayerCollection(null, 1, $this->getMockGameSettings([
             "villager_werewolf_ratio" => 1,
         ]));
         $collection->makePlayers();
@@ -90,36 +91,18 @@ class PlayerCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $methods
-     * @param int $mockConnections
-     * @param \PHPUnit_Framework_MockObject_MockObject|null $settings
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * Test getPlayersByType returns players by a given type
      */
-    protected function getMockCollection($methods = null, $mockConnections = 0, $settings = null)
+    public function testGetPlayersByType()
     {
-        $collection = $this->getMockBuilder('Choccybiccy\Werewolf\Collection\PlayerCollection')
-            ->setConstructorArgs(
-                [
-                    $this->getMock('Choccybiccy\Werewolf\PlayerFactory', null),
-                    $settings ?: $this->getMockGameSettings(),
-                ]
-            )
-            ->setMethods($methods)
-            ->getMock();
-        if ($mockConnections > 0) {
-            for ($i=1; $i<=$mockConnections; $i++) {
-                $collection->attach($this->getMock('Ratchet\ConnectionInterface'));
+        $collection = $this->getMockPlayerCollection(null, 7);
+        $collection->makePlayers();
+        $types = array_keys($collection->getTypeCounts());
+        foreach ($types as $type) {
+            $players = $collection->getPlayersByType($type);
+            foreach ($players as $player) {
+                $this->assertEquals($type, $player->getType());
             }
         }
-        return $collection;
-    }
-
-    /**
-     * @param array $settings
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMockGameSettings(array $settings = [])
-    {
-        return $this->getMock('Choccybiccy\Werewolf\GameSettings', null, [$settings]);
     }
 }

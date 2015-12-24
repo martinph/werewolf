@@ -8,4 +8,12 @@ namespace Choccybiccy\Werewolf\Command;
  */
 class HealCommand extends AbstractCommand
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run()
+    {
+
+    }
 }
