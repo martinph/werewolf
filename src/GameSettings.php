@@ -3,12 +3,10 @@
 namespace Choccybiccy\Werewolf;
 
 /**
- * Class GameSettings
- * @package Choccybiccy\Werewolf
+ * Class GameSettings.
  */
 class GameSettings
 {
-
     /**
      * @var array
      */
@@ -16,6 +14,7 @@ class GameSettings
 
     /**
      * GameSettings constructor.
+     *
      * @param array $settings
      */
     public function __construct(array $settings)
@@ -24,9 +23,11 @@ class GameSettings
     }
 
     /**
-     * Get a game setting
+     * Get a game setting.
+     *
      * @param string $key
-     * @param mixed $default The default return if key not available
+     * @param mixed  $default The default return if key not available
+     *
      * @return array
      */
     public function get($key, $default = null)
@@ -34,12 +35,15 @@ class GameSettings
         if ($this->has($key)) {
             return $this->settings[$key];
         }
+
         return $default;
     }
 
     /**
      * Is the setting available?
+     *
      * @param string $key
+     *
      * @return bool
      */
     public function has($key)
@@ -48,7 +52,8 @@ class GameSettings
     }
 
     /**
-     * Return all the settings
+     * Return all the settings.
+     *
      * @return array
      */
     public function all()

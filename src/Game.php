@@ -3,18 +3,15 @@
 namespace Choccybiccy\Werewolf;
 
 use Choccybiccy\Werewolf\Collection\PlayerCollection;
-use Choccybiccy\Werewolf\Interfaces\CommandInterface;
 use Choccybiccy\Werewolf\Exception\MalformedDataException;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 /**
- * Class Game
- * @package Choccybiccy\Werewolf
+ * Class Game.
  */
 class Game implements MessageComponentInterface
 {
-
     /**
      * @var GameSettings
      */
@@ -38,10 +35,10 @@ class Game implements MessageComponentInterface
     /**
      * Application constructor.
      *
-     * @param GameSettings $settings
+     * @param GameSettings     $settings
      * @param PlayerCollection $players
-     * @param PlayerFactory $playerFactory
-     * @param CommandHandler $commandHandler
+     * @param PlayerFactory    $playerFactory
+     * @param CommandHandler   $commandHandler
      */
     public function __construct(
         GameSettings $settings,
@@ -63,7 +60,7 @@ class Game implements MessageComponentInterface
 
     /**
      * @param ConnectionInterface $from
-     * @param string $message
+     * @param string              $message
      */
     public function onMessage(ConnectionInterface $from, $message)
     {
@@ -78,25 +75,28 @@ class Game implements MessageComponentInterface
 
     /**
      * @param ConnectionInterface $conn
-     * @param \Exception $e
+     * @param \Exception          $e
      */
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
     }
 
     /**
-     * Decode JSON data
+     * Decode JSON data.
      *
      * @param string $string
+     *
      * @return array
+     *
      * @throws MalformedDataException
      */
     protected function decode($string)
     {
         $decoded = json_decode($string, true);
         if ($decoded === null) {
-            throw new MalformedDataException("The message data cannot be decoded");
+            throw new MalformedDataException('The message data cannot be decoded');
         }
+
         return $decoded;
     }
 }

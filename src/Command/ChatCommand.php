@@ -3,12 +3,10 @@
 namespace Choccybiccy\Werewolf\Command;
 
 /**
- * Class ChatCommand
- * @package Choccybiccy\Werewolf\Command
+ * Class ChatCommand.
  */
 class ChatCommand extends AbstractCommand
 {
-
     /**
      * {@inheritdoc}
      */

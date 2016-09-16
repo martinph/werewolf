@@ -3,8 +3,7 @@
 namespace Choccybiccy\Werewolf\Exception;
 
 /**
- * Class PlayerNotFoundException
- * @package Choccybiccy\Werewolf\Exception
+ * Class PlayerNotFoundException.
  */
 class PlayerNotFoundException extends \Exception
 {

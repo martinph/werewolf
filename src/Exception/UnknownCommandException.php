@@ -3,8 +3,7 @@
 namespace Choccybiccy\Werewolf\Exception;
 
 /**
- * Class UnknownCommandException
- * @package Choccybiccy\Werewolf\Exception
+ * Class UnknownCommandException.
  */
 class UnknownCommandException extends \Exception
 {

@@ -2,20 +2,19 @@
 
 namespace Choccybiccy\Werewolf;
 
+use Choccybiccy\Werewolf\Exception\PlayerDeadException;
 use Choccybiccy\Werewolf\Exception\PlayerLivingException;
 use Ratchet\ConnectionInterface;
 
 /**
- * Class Player
- * @package Choccybiccy\Werewolf\Player
+ * Class Player.
  */
 class Player
 {
-
-    const TYPE_WEREWOLF = "werewolf";
-    const TYPE_VILLAGER = "villager";
-    const TYPE_SEER = "seer";
-    const TYPE_DOCTOR = "doctor";
+    const TYPE_WEREWOLF = 'werewolf';
+    const TYPE_VILLAGER = 'villager';
+    const TYPE_SEER = 'seer';
+    const TYPE_DOCTOR = 'doctor';
 
     /**
      * @var ConnectionInterface
@@ -39,9 +38,10 @@ class Player
 
     /**
      * AbstractPlayer constructor.
+     *
      * @param ConnectionInterface $connection
-     * @param string $type
-     * @param string $nickname
+     * @param string              $type
+     * @param string              $nickname
      */
     public function __construct(ConnectionInterface $connection, $type, $nickname)
     {
@@ -75,23 +75,23 @@ class Player
     }
 
     /**
-     * Kill the player
+     * Kill the player.
      */
     public function kill()
     {
         if (!$this->isAlive()) {
-            throw new PlayerLivingException("Cannot kill player, player already dead");
+            throw new PlayerDeadException('Cannot kill player, player already dead');
         }
         $this->alive = false;
     }
 
     /**
-     * Revive the player
+     * Revive the player.
      */
     public function revive()
     {
         if ($this->isAlive()) {
-            throw new PlayerLivingException("Cannot revive player, player is already alive");
+            throw new PlayerLivingException('Cannot revive player, player is already alive');
         }
         $this->alive = true;
     }

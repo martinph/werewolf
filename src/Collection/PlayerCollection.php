@@ -8,12 +8,10 @@ use Choccybiccy\Werewolf\PlayerFactory;
 use Ratchet\ConnectionInterface;
 
 /**
- * Class PlayerCollection
- * @package Choccybiccy\Werewolf\Collection
+ * Class PlayerCollection.
  */
 class PlayerCollection extends \SplObjectStorage
 {
-
     /**
      * @var array
      */
@@ -41,8 +39,9 @@ class PlayerCollection extends \SplObjectStorage
 
     /**
      * PlayerCollection constructor.
+     *
      * @param PlayerFactory $playerFactory
-     * @param GameSettings $settings
+     * @param GameSettings  $settings
      */
     public function __construct(PlayerFactory $playerFactory, GameSettings $settings)
     {
@@ -52,7 +51,7 @@ class PlayerCollection extends \SplObjectStorage
 
     /**
      * @param ConnectionInterface $connection
-     * @param null $data
+     * @param null                $data
      */
     public function attach(ConnectionInterface $connection, $data = null)
     {
@@ -69,35 +68,34 @@ class PlayerCollection extends \SplObjectStorage
     }
 
     /**
-     * Make players out of connections
+     * Make players out of connections.
      */
     public function makePlayers()
     {
-
         $connections = iterator_to_array($this, false);
         $nicknameSuffixes = range(1, $this->count());
         shuffle($nicknameSuffixes);
         shuffle($connections);
 
-        $allowedWerewolfs = round($this->count()*$this->settings->get("villager_werewolf_ratio", 0.3));
-        $allowedDoctors = $this->settings->get("doctors_count", 1);
-        $allowedSeers = $this->settings->get("seers_count", 1);
+        $allowedWerewolfs = round($this->count() * $this->settings->get('villager_werewolf_ratio', 0.3));
+        $allowedDoctors = $this->settings->get('doctors_count', 1);
+        $allowedSeers = $this->settings->get('seers_count', 1);
 
         /** @var ConnectionInterface $connection */
         foreach ($connections as $connection) {
             if ($allowedWerewolfs > 0) {
                 $type = Player::TYPE_WEREWOLF;
-                $allowedWerewolfs--;
+                --$allowedWerewolfs;
             } elseif ($allowedDoctors > 0) {
                 $type = Player::TYPE_DOCTOR;
-                $allowedDoctors--;
+                --$allowedDoctors;
             } elseif ($allowedSeers > 0) {
                 $type = Player::TYPE_SEER;
-                $allowedSeers--;
+                --$allowedSeers;
             } else {
                 $type = Player::TYPE_VILLAGER;
             }
-            $nickname = $this->settings->get("villager_prefix", "Villager") . " " . array_pop($nicknameSuffixes);
+            $nickname = $this->settings->get('villager_prefix', 'Villager').' '.array_pop($nicknameSuffixes);
             $player = $this->playerFactory->create(
                 $connection,
                 $type,
@@ -109,7 +107,6 @@ class PlayerCollection extends \SplObjectStorage
         uasort($this->players, function (Player $a, Player $b) {
             return ($a->getNickname() < $b->getNickname()) ? -1 : 1;
         });
-
     }
 
     /**
@@ -122,6 +119,7 @@ class PlayerCollection extends \SplObjectStorage
 
     /**
      * @param string $hash
+     *
      * @return Player
      */
     public function getPlayer($hash)
@@ -131,7 +129,8 @@ class PlayerCollection extends \SplObjectStorage
 
     /**
      * @param ConnectionInterface $connection
-     * @return null
+     *
+     * @return Player
      */
     public function getPlayerByConnection(ConnectionInterface $connection)
     {
@@ -140,6 +139,7 @@ class PlayerCollection extends \SplObjectStorage
 
     /**
      * @param string $type
+     *
      * @return Player[]
      */
     public function getPlayersByType($type)
@@ -163,7 +163,8 @@ class PlayerCollection extends \SplObjectStorage
     }
 
     /**
-     * Get the player type counts
+     * Get the player type counts.
+     *
      * @return array
      */
     public function getTypeCounts()
@@ -171,19 +172,23 @@ class PlayerCollection extends \SplObjectStorage
         $types = array_combine($this->types, array_fill(0, count($this->types), 0));
         /** @var Player $player */
         foreach ($this->players as $player) {
-            $types[$player->getType()]++;
+            ++$types[$player->getType()];
         }
+
         return $types;
     }
 
     /**
-     * Get individual player type count
+     * Get individual player type count.
+     *
      * @param string $type
+     *
      * @return int
      */
     public function getTypeCount($type)
     {
         $counts = $this->getTypeCounts();
+
         return array_key_exists($type, $counts) ? $counts[$type] : 0;
     }
 }

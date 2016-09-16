@@ -3,14 +3,13 @@
 namespace Choccybiccy\Werewolf\Command;
 
 /**
- * Interface CommandInterface
- * @package Choccybiccy\Werewolf\Command
+ * Interface CommandInterface.
  */
 interface CommandInterface
 {
-
     /**
-     * Run the command
+     * Run the command.
+     *
      * @return mixed
      */
     public function run();

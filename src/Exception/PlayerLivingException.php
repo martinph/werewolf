@@ -3,8 +3,7 @@
 namespace Choccybiccy\Werewolf\Exception;
 
 /**
- * Class PlayerLivingException
- * @package Choccybiccy\Werewolf\Exception
+ * Class PlayerLivingException.
  */
 class PlayerLivingException extends \Exception
 {

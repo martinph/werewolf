@@ -7,18 +7,16 @@ use Choccybiccy\Werewolf\Exception\MalformedDataException;
 use Choccybiccy\Werewolf\Exception\UnknownCommandException;
 
 /**
- * Class CommandHandler
- * @package Choccybiccy\Werewolf
+ * Class CommandHandler.
  */
 class CommandHandler
 {
+    const COMMAND_CHAT = 'chat';
+    const COMMAND_HEAL = 'heal';
+    const COMMAND_KILL = 'kill';
+    const COMMAND_REVEAL = 'reveal';
 
-    const COMMAND_CHAT = "chat";
-    const COMMAND_HEAL = "heal";
-    const COMMAND_KILL = "kill";
-    const COMMAND_REVEAL = "reveal";
-
-    const KEY_COMMAND = "command";
+    const KEY_COMMAND = 'command';
 
     /**
      * @var array
@@ -31,16 +29,18 @@ class CommandHandler
     ];
 
     /**
-     * Handle incoming data and convert to command
-     * @param array $data
+     * Handle incoming data and convert to command.
+     *
+     * @param array  $data
      * @param Player $player
+     *
      * @throws MalformedDataException
      * @throws UnknownCommandException
      */
     public function handle(array $data, Player $player, PlayerCollection $collection)
     {
         if (!array_key_exists(self::KEY_COMMAND, $data)) {
-            throw new MalformedDataException("Data is missing the " . self::KEY_COMMAND . " attribute");
+            throw new MalformedDataException('Data is missing the '.self::KEY_COMMAND.' attribute');
         }
 
         $command = $data[self::KEY_COMMAND];
@@ -50,11 +50,13 @@ class CommandHandler
         }
 
         $command = new $this->commands[$command]($data, $player, $collection);
+
         return $command;
     }
 
     /**
-     * Get available commands
+     * Get available commands.
+     *
      * @return array
      */
     public function getCommands()

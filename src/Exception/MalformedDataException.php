@@ -3,8 +3,7 @@
 namespace Choccybiccy\Werewolf\Exception;
 
 /**
- * Class MalformedDataException
- * @package Choccybiccy\Werewolf\Exception
+ * Class MalformedDataException.
  */
 class MalformedDataException extends \Exception
 {

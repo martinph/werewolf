@@ -7,12 +7,10 @@ use Choccybiccy\Werewolf\Exception\PlayerNotFoundException;
 use Choccybiccy\Werewolf\Player;
 
 /**
- * Class AbstractCommand
- * @package Choccybiccy\Werewolf\Command
+ * Class AbstractCommand.
  */
 abstract class AbstractCommand implements CommandInterface
 {
-
     /**
      * @var
      */
@@ -29,9 +27,15 @@ abstract class AbstractCommand implements CommandInterface
     protected $players;
 
     /**
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
      * AbstractCommand constructor.
-     * @param array $data
-     * @param Player $player
+     *
+     * @param array            $data
+     * @param Player           $player
      * @param PlayerCollection $players
      */
     public function __construct(array $data, Player $player, PlayerCollection $players)
@@ -42,21 +46,25 @@ abstract class AbstractCommand implements CommandInterface
     }
 
     /**
-     * Find a target player by their hash
+     * Find a target player by their hash.
+     *
      * @return Player
+     *
      * @throws PlayerNotFoundException
      */
     protected function getTargetPlayer()
     {
         $target = $this->players->getPlayer($this->data['target']);
         if (!$target) {
-            throw new PlayerNotFoundException("Target player not found");
+            throw new PlayerNotFoundException('Target player not found');
         }
+
         return $target;
     }
 
     /**
      * @param array $data
+     *
      * @return Response
      */
     protected function makeResponse(array $data)

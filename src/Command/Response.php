@@ -3,12 +3,10 @@
 namespace Choccybiccy\Werewolf\Command;
 
 /**
- * Class Response
- * @package Choccybiccy\Werewolf\Command
+ * Class Response.
  */
 class Response
 {
-
     /**
      * @var array
      */
@@ -21,7 +19,8 @@ class Response
 
     /**
      * Response constructor.
-     * @param array $response
+     *
+     * @param array            $response
      * @param CommandInterface $command
      */
     public function __construct(array $response, CommandInterface $command)
@@ -51,7 +50,7 @@ class Response
      */
     public function isSuccess()
     {
-        return array_key_exists("success", $this->response) ? (bool) $this->response['success'] : false;
+        return array_key_exists('success', $this->response) ? (bool) $this->response['success'] : false;
     }
 
     /**
@@ -59,11 +58,12 @@ class Response
      */
     public function getMessage()
     {
-        return array_key_exists("message", $this->response) ? $this->response['message'] : null;
+        return array_key_exists('message', $this->response) ? $this->response['message'] : null;
     }
 
     /**
      * @param string $property
+     *
      * @return mixed
      */
     public function get($property)
